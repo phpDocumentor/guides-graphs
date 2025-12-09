@@ -28,7 +28,7 @@ final class PlantumlRendererTest extends TestCase
      */
     public function testRenderCreatesTempDirectoryWhenMissing(): void
     {
-        $tempDir = sys_get_temp_dir() . '/phpdocumentor';
+        $tempDir = sys_get_temp_dir() . PlantumlRenderer::TEMP_SUBDIRECTORY;
 
         // Remove the directory if it exists to test creation
         if (is_dir($tempDir)) {

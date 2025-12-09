@@ -28,6 +28,8 @@ use function tempnam;
 
 final class PlantumlRenderer implements DiagramRenderer
 {
+    public const TEMP_SUBDIRECTORY = '/phpdocumentor';
+
     public function __construct(private readonly LoggerInterface $logger, private readonly string $plantUmlBinaryPath)
     {
     }
@@ -47,7 +49,7 @@ $diagram
 @enduml
 PUML;
 
-        $tempDir = sys_get_temp_dir() . '/phpdocumentor';
+        $tempDir = sys_get_temp_dir() . self::TEMP_SUBDIRECTORY;
         if (!is_dir($tempDir)) {
             mkdir($tempDir, 0o777, true);
         }
