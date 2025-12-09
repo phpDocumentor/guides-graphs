@@ -21,6 +21,8 @@ use Symfony\Component\Process\Process;
 use function array_merge;
 use function file_get_contents;
 use function file_put_contents;
+use function is_dir;
+use function mkdir;
 use function sys_get_temp_dir;
 use function tempnam;
 
@@ -45,7 +47,12 @@ $diagram
 @enduml
 PUML;
 
-        $pumlFileLocation = tempnam(sys_get_temp_dir() . '/phpdocumentor', 'pu_');
+        $tempDir = sys_get_temp_dir() . '/phpdocumentor';
+        if (!is_dir($tempDir)) {
+            mkdir($tempDir, 0o777, true);
+        }
+
+        $pumlFileLocation = tempnam($tempDir, 'pu_');
         file_put_contents($pumlFileLocation, $output);
         try {
             $process = new Process([$this->plantUmlBinaryPath, '-tsvg', $pumlFileLocation], __DIR__, null, null, 600.0);
